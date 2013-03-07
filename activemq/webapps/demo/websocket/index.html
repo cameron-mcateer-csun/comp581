@@ -89,7 +89,7 @@
     <form id='connect_form'>
         <dl>
             <dt><label for=connect_url>Server URL</label></dt>
-            <dd><input name=url id='connect_url' value='ws://localhost:61614/stomp'></dd>
+            <dd><input name=url id='connect_url' value='ws://localhost:61614/stomp' onload="this.value = 'ws://'+window.location.hostname+':61616/stomp'"></dd>
             <dt><label for=connect_login>Login</label></dt>
             <dd><input id='connect_login' placeholder="User Login" value="guest"></dd>
             <dt><label for=connect_passcode>Password</label></dt>
