@@ -33,11 +33,14 @@
     <script src='chat.js'></script>
     <script>
         $(document).ready(function() {
-        var supported = ("WebSocket" in window);
-        if(!supported) {
-        var msg = "Your browser does not support Web Sockets. This example will not work properly.<br>";
-        msg += "Please use a Web Browser with Web Sockets support (WebKit or Google Chrome).";
-        $("#connect").html(msg);
+            var supported = ("WebSocket" in window);
+            if(!supported) {
+            var msg = "Your browser does not support Web Sockets. This example will not work properly.<br>";
+            msg += "Please use a Web Browser with Web Sockets support (WebKit or Google Chrome).";
+            $("#connect").html(msg);
+
+            // also change url
+            $("#connect_url").attr('value', 'ws://'+window.location.hostname+':61616/stomp');
         }
         });
     </script>
