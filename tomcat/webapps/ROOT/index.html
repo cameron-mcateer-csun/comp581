@@ -6,6 +6,9 @@
 		<link rel="stylesheet" href="includes/css/chat.css" />
 		<script type="text/javascript" src="includes/js/stomp.js"></script>
 		<script type="text/javascript" src="includes/js/chat.js"></script>
+
+        <link href="css/social.css" rel="stylesheet">
+        <link href="css/bootstrap.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -48,14 +51,57 @@
 												    </form>
 												</div>
 
-												<div id="messages">
-												</div>
+                                                <!--NEW BODY-->
+                                                <div class="wraper sidebar-full">
 
-												<form id="send_form">
-												    <input id="send_form_input" placeholder="Type your message here" disabled />
-												</form>
 
-												<pre id="debug"></pre>
+                                                    <div id="main">
+                                                        <div class="container-fluid">
+
+                                                            <div class="row-fluid">
+                                                                <div class="span6">
+
+                                                                    <div class="social-box">
+                                                                        <div class="header">
+                                                                            <h4><i class="icon-bar-chart"></i> Chat</h4>
+                                                                        </div>
+
+                                                                        <div class="body chat">
+                                                                            <div class="chat-messages-list" style="height:auto">
+                                                                                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: auto;"><div class="content" style="overflow: hidden; width: auto; height: auto;">
+
+                                                                                    <div  id="messages" class="chat-message pull-right">
+
+                                                                                    </div>
+
+
+                                                                                </div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: block; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; background-color: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px; background-position: initial initial; background-repeat: initial initial;"></div></div>
+                                                                            </div>
+                                                                            <div class="chat-composer">
+                                                                                <div class="chat-form">
+                                                                                    <div class="chat-input">
+                                                                                        <!--<input id="composerMessage" type="text" placeholder="Type a message...">-->
+                                                                                        <form id="send_form">
+                                                                                            <input id="send_form_input" placeholder="Type your message here" disabled />
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    <!--<button class="btn btn-primary chat-sender" type="submit">-->
+                                                                                        <span class="icon icon-share-alt "></span>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div> </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!--END NEW BODY-->
+
+												<pre style="float: left;margin-left: 20px;" id="debug"></pre>
 
 			                                </div>
 			                            </td>

@@ -2,7 +2,7 @@ var client, destination;
 function onDocuReady() {
 	function makeOnMessage(topic_name) {
 		return function(message) {
-			$('#messages').append("<p>" + "<strong><br>" + topic_name + ":</strong>&nbsp;" + message.body + "</p>\n");
+			$('#messages').append('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>Date HERE</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
 		}
 	}
 
@@ -40,7 +40,7 @@ function onDocuReady() {
 			$('#send_form_input').removeAttr('disabled');
 		};
 
-		client.connect("/topic/"+login, passcode, onconnect);
+		client.connect(login, passcode, onconnect);
 
 		return false;
 	});
