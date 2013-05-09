@@ -34,7 +34,8 @@ body {
 #debug {
   background-color: #F0F0F0;
   font-size: 12px;
-  width: 800px;
+  width: 45%;
+  float: right;
   margin-left: 0px;
   margin-top: 10px;
   margin-right: 0px;
@@ -43,20 +44,24 @@ body {
 }
 
 #send_form {
-  width: 800px;
+  width: 45%;
+  float: left;
   bottom: 10px;
-}
-
-#send_form #send_form_input {
-  border: 1px solid #CCC;
   font-size: 16px;
   height: 20px;
   padding: 10px;
-  width: 800px;
 }
 
 #send_form input[disabled] {
   background-color: #EEE;
+}
+
+#send_form_input {
+  border: 1px solid #CCC;
+  font-size: 16px;
+  height: 20px;
+  padding: 10px;
+  width: 100%;
 }
 
 #messages {
