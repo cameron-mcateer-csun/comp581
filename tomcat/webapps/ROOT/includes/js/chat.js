@@ -2,7 +2,16 @@ var client, destination;
 function onDocuReady() {
 	function makeOnMessage(topic_name) {
 		return function(message) {
-			$('#messages').append('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>Date HERE</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
+			var date = new Date(Number(message.headers.timestamp));
+			var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+			var mo = months[date.getMonth()];
+			var d = date.getDate();
+			var h = date.getHours();
+			var a = h >= 13 ? "PM" : "AM";
+			h = h >= 13 ? h-12 : h;
+			var m = date.getMinutes();
+			var str = mo + " " + d + ", " + h + ":" + m + " " + a;
+			$('#messages').append('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
 		}
 	}
 
@@ -74,6 +83,7 @@ function onDocuReady() {
 			$('#connect').fadeIn();
 			$('#send_form_input').attr('disabled', 'true');
 			$('#messages').html("");
+			$('#debug').html("");
 		});
 		return false;
 	});
