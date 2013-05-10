@@ -120,6 +120,14 @@ function onDocuReady() {
 		return false;
 	});
 
+	$('#show_hide_debug').click(function() {
+		var debug = $('#debug');
+		if (debug.css("display") == "none")
+			debug.css("display", "");
+		else
+			debug.css("display", "none");
+	});
+
 	$("#connect_login").focus();
 
 }
