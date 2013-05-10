@@ -4,34 +4,21 @@ function onDocuReady() {
 		return function(message) {
 			console.log(message);
 			var msg = message.body;
+			var showmsg = true;
 			if (message.headers.extended && message.headers.extended) {
 				var ext = JSON.parse(message.headers.extended, true);
 				if (ext.action) {
 					if (ext.action == "DISCONNECT")
 						msg = "<strong>USER HAS DISCONNECTED</strong>";
 					else if (ext.action == "TYPING") {
-						var typing = client.typings && client.typings[message.subscription];
-						if (typing instanceof Function)
-							typing();
+						showTyping();
+						showmsg = false;
 					}
 				}
 			}
-			var date = new Date(Number(message.headers.timestamp));
-			var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-			var mo = months[date.getMonth()];
-			var d = date.getDate();
-			var h = date.getHours();
-			var a = h >= 13 ? "PM" : "AM";
-			h = h >= 13 ? h-12 : h;
-			var m = date.getMinutes();
-			var str = mo + " " + d + ", " + h + ":" + m + " " + a;
-			$('#messages').prepend('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + msg + "</div></div>");
-			$("#chat_message_list").scrollTop(0);
-		}
-	}
-	function makeOnSelfMessage(self_name) {
-		return function(message) {
-			var date = new Date(Number(message.headers.timestamp));
+
+			if (showmsg) {
+				var date = new Date(Number(message.headers.timestamp));
 				var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 				var mo = months[date.getMonth()];
 				var d = date.getDate();
@@ -40,9 +27,36 @@ function onDocuReady() {
 				h = h >= 13 ? h-12 : h;
 				var m = date.getMinutes();
 				var str = mo + " " + d + ", " + h + ":" + m + " " + a;
-				$('#messages').prepend('<div class="chat-message-body"><div class="chat-message-body-header"><span style="color:red;">' + self_name + "</span><small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
+				$('#typing').after('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + msg + "</div></div>");
 				$("#chat_message_list").scrollTop(0);
 			}
+		}
+	}
+	function makeOnSelfMessage(self_name) {
+		return function(message) {
+			var showmsg = true;
+			if (message.headers.extended && message.headers.extended) {
+				var ext = JSON.parse(message.headers.extended, true);
+				if (ext.action) {
+					if (ext.action == "TYPING") {
+						showmsg = false;
+					}
+				}
+			}
+			if (showmsg) {
+				var date = new Date(Number(message.headers.timestamp));
+				var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+				var mo = months[date.getMonth()];
+				var d = date.getDate();
+				var h = date.getHours();
+				var a = h >= 13 ? "PM" : "AM";
+				h = h >= 13 ? h-12 : h;
+				var m = date.getMinutes();
+				var str = mo + " " + d + ", " + h + ":" + m + " " + a;
+				$('#typing').after('<div class="chat-message-body"><div class="chat-message-body-header"><span style="color:red;">' + self_name + "</span><small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
+				$("#chat_message_list").scrollTop(0);
+			}
+		}
 	}
 
 	function validTopicName(topic_name) {
@@ -64,7 +78,6 @@ function onDocuReady() {
 		client = Stomp.client(url);
 
 		client.login = login;
-		client.typings = {}
 
 		// this allows to display debug logs directly on the web page
 		client.debug = function(str) {
@@ -140,6 +153,15 @@ function onDocuReady() {
 		return false;
 	});
 
+	window.amTyping = null;
+	$("#send_form_input").keydown(function() {
+		if (window.amTyping == null) {
+			client.send("/topic/"+client.login, {"extended": JSON.stringify({"action": "TYPING"})});
+			window.amTyping = setInterval(function(){window.amTyping = null;}, 2000);
+		}
+		return true;
+	});
+
 	$('#show_hide_debug').click(function() {
 		var debug = $('#debug');
 		if (debug.css("display") == "none")
@@ -149,6 +171,16 @@ function onDocuReady() {
 	});
 
 	$("#connect_login").focus();
+
+	window.isTyping = null
+	function showTyping() {
+		$("#typing").css("display", "");
+		if (window.isTyping != null)
+		{
+			clearInterval(window.isTyping);
+		}
+		window.isTyping = setTimeout(function(){$("#typing").css("display","none");clearInterval(window.isTyping);window.isTyping=null;}, 2000);
+	}
 
 }
 
