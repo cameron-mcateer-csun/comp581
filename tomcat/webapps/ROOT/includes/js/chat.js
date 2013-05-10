@@ -11,7 +11,8 @@ function onDocuReady() {
 			h = h >= 13 ? h-12 : h;
 			var m = date.getMinutes();
 			var str = mo + " " + d + ", " + h + ":" + m + " " + a;
-			$('#messages').append('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
+			$('#messages').prepend('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
+			$("#chat_message_list").scrollTop(0);
 		}
 	}
 	function makeOnSelfMessage(self_name) {
@@ -25,7 +26,8 @@ function onDocuReady() {
 				h = h >= 13 ? h-12 : h;
 				var m = date.getMinutes();
 				var str = mo + " " + d + ", " + h + ":" + m + " " + a;
-				$('#messages').append('<div class="chat-message-body"><div class="chat-message-body-header"><span style="color:red;">' + self_name + "</span><small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
+				$('#messages').prepend('<div class="chat-message-body"><div class="chat-message-body-header"><span style="color:red;">' + self_name + "</span><small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
+				$("#chat_message_list").scrollTop(0);
 			}
 	}
 
@@ -65,6 +67,8 @@ function onDocuReady() {
 			client.subscribe("/topic/"+login, makeOnSelfMessage(login));
 
 			$("#send_form_input").focus();
+
+			$(document.body).scrollTop(0);
 		};
 
 		client.connect(login, passcode, onconnect);

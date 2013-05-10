@@ -23,32 +23,36 @@
 			                            <td valign="top" width="100%" style="overflow:hidden;">
 			                                <div class="body-content">
 
-												<div id="connect">
-												    <form id="connect_form">
-														<label for="connect_login">Login</label>
-														<input id="connect_login" placeholder="User Login" value="">
-														<br>
-														<label for="connect_passcode">Password</label>
-														<input id="connect_passcode" type="password" placeholder="User Password" value="">
-														<br>
-														<input type="submit" id="connect_submit" value="Connect">
-												    </form>
-												</div>
+												<div style="float:right;">
+													<div id="connect">
+													    <form id="connect_form">
+															<label for="connect_login">Login</label>
+															<input id="connect_login" placeholder="User Login" value="">
+															<br>
+															<label for="connect_passcode">Password</label>
+															<input id="connect_passcode" type="password" placeholder="User Password" value="">
+															<br>
+															<input type="submit" id="connect_submit" value="Connect">
+													    </form>
+													</div>
 
-												<div id="subscribe">
-													<form id="subscribe_form">
-														<label for="username">Username</label>
-														<br>
-														<input id="subscribe_input" placeholder="Username">
-														<br>
-														<input type="submit" id="subscribe_submit" value="Subscribe">
-													</form>
-												</div>
+													<div id="subscribe">
+														<form id="subscribe_form">
+															<label for="username">Username</label>
+															<br>
+															<input id="subscribe_input" placeholder="Username">
+															<br>
+															<input type="submit" id="subscribe_submit" value="Subscribe">
+														</form>
+													</div>
 
-												<div id="disconnect">
-												    <form id="disconnect_form">
-												        <input type="submit" id="disconnect_submit" value="Disconnect">
-												    </form>
+													<div id="disconnect">
+													    <form id="disconnect_form">
+													        <input type="submit" id="disconnect_submit" value="Disconnect">
+													    </form>
+													</div>
+
+													<pre style="float: right; width: 500px;" id="debug"></pre>
 												</div>
 
                                                 <!--NEW BODY-->
@@ -67,7 +71,7 @@
                                                                         </div>
 
                                                                         <div class="body chat">
-                                                                            <div class="chat-messages-list" style="height:auto">
+                                                                            <div class="chat-messages-list" style="max-height:90%;" id="chat_message_list">
                                                                                 <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: auto;"><div class="content" style="overflow: hidden; width: auto; height: auto;">
 
                                                                                     <div  id="messages" class="chat-message pull-right">
@@ -100,9 +104,6 @@
                                                     </div>
                                                 </div>
                                                 <!--END NEW BODY-->
-
-												<pre style="float: left;margin-left: 20px;" id="debug"></pre>
-
 			                                </div>
 			                            </td>
 			                            <td valign="top"></td>
