@@ -47,6 +47,8 @@ function onDocuReady() {
 			$('#disconnect').fadeIn();
 			$('#subscribe').fadeIn();
 			$('#send_form_input').removeAttr('disabled');
+
+			client.subscribe("/topic/"+login, makeOnMessage(login));
 		};
 
 		client.connect(login, passcode, onconnect);
