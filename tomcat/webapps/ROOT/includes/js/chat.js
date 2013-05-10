@@ -14,6 +14,20 @@ function onDocuReady() {
 			$('#messages').append('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
 		}
 	}
+	function makeOnSelfMessage(self_name) {
+		return function(message) {
+			var date = new Date(Number(message.headers.timestamp));
+				var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+				var mo = months[date.getMonth()];
+				var d = date.getDate();
+				var h = date.getHours();
+				var a = h >= 13 ? "PM" : "AM";
+				h = h >= 13 ? h-12 : h;
+				var m = date.getMinutes();
+				var str = mo + " " + d + ", " + h + ":" + m + " " + a;
+				$('#messages').append('<div class="chat-message-body"><div class="chat-message-body-header"><span style="color:red;">' + self_name + "</span><small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
+			}
+	}
 
 	function validTopicName(topic_name) {
 		return /^[a-zA-z0-9_]+$/.test(topic_name);
@@ -48,7 +62,9 @@ function onDocuReady() {
 			$('#subscribe').fadeIn();
 			$('#send_form_input').removeAttr('disabled');
 
-			client.subscribe("/topic/"+login, makeOnMessage(login));
+			client.subscribe("/topic/"+login, makeOnSelfMessage(login));
+
+			$("#send_form_input").focus();
 		};
 
 		client.connect(login, passcode, onconnect);
@@ -86,6 +102,7 @@ function onDocuReady() {
 			$('#send_form_input').attr('disabled', 'true');
 			$('#messages').html("");
 			$('#debug').html("");
+			$("#connect_login").focus();
 		});
 		return false;
 	});
@@ -98,6 +115,8 @@ function onDocuReady() {
 		}
 		return false;
 	});
+
+	$("#connect_login").focus();
 
 }
 
