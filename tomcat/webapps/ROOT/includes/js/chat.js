@@ -2,6 +2,20 @@ var client, destination;
 function onDocuReady() {
 	function makeOnMessage(topic_name) {
 		return function(message) {
+			console.log(message);
+			var msg = message.body;
+			if (message.headers.extended && message.headers.extended) {
+				var ext = JSON.parse(message.headers.extended, true);
+				if (ext.action) {
+					if (ext.action == "DISCONNECT")
+						msg = "<strong>USER HAS DISCONNECTED</strong>";
+					else if (ext.action == "TYPING") {
+						var typing = client.typings && client.typings[message.subscription];
+						if (typing instanceof Function)
+							typing();
+					}
+				}
+			}
 			var date = new Date(Number(message.headers.timestamp));
 			var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 			var mo = months[date.getMonth()];
@@ -11,7 +25,7 @@ function onDocuReady() {
 			h = h >= 13 ? h-12 : h;
 			var m = date.getMinutes();
 			var str = mo + " " + d + ", " + h + ":" + m + " " + a;
-			$('#messages').prepend('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + message.body + "</div></div>");
+			$('#messages').prepend('<div class="chat-message-body"><div class="chat-message-body-header">' + topic_name + "<small>"+str+"</small></div>" + '<div class="chat-message-body-content">' + msg + "</div></div>");
 			$("#chat_message_list").scrollTop(0);
 		}
 	}
@@ -48,6 +62,9 @@ function onDocuReady() {
 		destination = login;
 
 		client = Stomp.client(url);
+
+		client.login = login;
+		client.typings = {}
 
 		// this allows to display debug logs directly on the web page
 		client.debug = function(str) {
@@ -92,6 +109,9 @@ function onDocuReady() {
 	});
 
 	$('#disconnect_form').submit(function() {
+		// signal a disconnect
+		client.send("/topic/"+client.login, {"extended": JSON.stringify({"action":"DISCONNECT"})});
+
 		for (var id in client.subscriptions) {
 			client.unsubscribe(id);
 		}
